@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using TaskFlow.Data.Context;
+using TaskFlow.Data.Repositories.Interfaces;
+using TaskFlow.Data.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<AppDbContext>(options => options.UseInMemoryDatabase("TaskDistributionDB"));
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
 var app = builder.Build();
 
