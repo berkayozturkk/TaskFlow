@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34511.84
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskFlow", "TaskFlow\TaskFlow.csproj", "{750134F9-2B16-4E12-943B-DE66808B37F4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskFlow.Business", "TaskFlow.Business\TaskFlow.Business.csproj", "{3A0A2937-ACC3-458E-AFEB-BDCBDFCB4059}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{750134F9-2B16-4E12-943B-DE66808B37F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{750134F9-2B16-4E12-943B-DE66808B37F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{750134F9-2B16-4E12-943B-DE66808B37F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{750134F9-2B16-4E12-943B-DE66808B37F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A0A2937-ACC3-458E-AFEB-BDCBDFCB4059}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A0A2937-ACC3-458E-AFEB-BDCBDFCB4059}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A0A2937-ACC3-458E-AFEB-BDCBDFCB4059}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A0A2937-ACC3-458E-AFEB-BDCBDFCB4059}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {995A74CA-81BE-4F05-90E9-5E880393DFAC}
+	EndGlobalSection
+EndGlobal
