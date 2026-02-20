@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskFlow", "TaskFlow\TaskFl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskFlow.Business", "TaskFlow.Business\TaskFlow.Business.csproj", "{3A0A2937-ACC3-458E-AFEB-BDCBDFCB4059}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskFlow.Models", "TaskFlow.Models\TaskFlow.Models.csproj", "{96E67D82-5110-4530-910F-45707310086E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskFlow.Data", "TaskFlow.Data\TaskFlow.Data.csproj", "{BB4ED43F-24F5-4007-A16F-913696143437}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{3A0A2937-ACC3-458E-AFEB-BDCBDFCB4059}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3A0A2937-ACC3-458E-AFEB-BDCBDFCB4059}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3A0A2937-ACC3-458E-AFEB-BDCBDFCB4059}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96E67D82-5110-4530-910F-45707310086E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96E67D82-5110-4530-910F-45707310086E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96E67D82-5110-4530-910F-45707310086E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96E67D82-5110-4530-910F-45707310086E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB4ED43F-24F5-4007-A16F-913696143437}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB4ED43F-24F5-4007-A16F-913696143437}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB4ED43F-24F5-4007-A16F-913696143437}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB4ED43F-24F5-4007-A16F-913696143437}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
