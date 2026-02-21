@@ -1,6 +1,5 @@
 ﻿namespace TaskFlow.Business.Interfaces;
 
-public interface ITaskDistributionService
+public interface IRoleService
 {
-
 }
