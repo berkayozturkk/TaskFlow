@@ -2,6 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using TaskFlow.Data.Context;
 using TaskFlow.Data.Repositories.Interfaces;
 using TaskFlow.Data.Repositories;
+using TaskFlow.Business.Interfaces;
+using TaskFlow.Business.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +16,11 @@ builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 builder.Services.AddScoped<IOperationTypeRepository, OperationTypeRepository>();
 builder.Services.AddScoped<ITaskRepository, TaskRepository>();
+
+builder.Services.AddScoped<ITaskService, TaskService>();
+builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+builder.Services.AddScoped<IRoleService,RoleService >();
+builder.Services.AddScoped<ITaskService,TaskService >();
 
 var app = builder.Build();
 
