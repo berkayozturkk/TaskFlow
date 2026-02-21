@@ -1,0 +1,151 @@
+﻿@model TaskFlow.Business.DTOs.CreateTaskDto
+
+@{
+    ViewData["Title"] = "Yeni Görev Ekle";
+}
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">
+                        <i class="fas fa-plus-circle me-2"></i>Yeni Görev Ekle
+                    </h4>
+                </div>
+                <div class="card-body">
+                    @if (!ViewData.ModelState.IsValid)
+                    {
+                        <div class="alert alert-danger">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            Lütfen aşağıdaki hataları düzeltiniz.
+                        </div>
+                    }
+
+                    <form asp-action="Create" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                        <div class="mb-3">
+                            <label asp-for="Title" class="form-label fw-bold">
+                                <i class="fas fa-heading me-1"></i>@Html.DisplayNameFor(model => model.Title)
+                            </label>
+                            <input asp-for="Title" class="form-control"
+                                   placeholder="Örn: Aylık Satış Raporu Hazırlama" />
+                            <span asp-validation-for="Title" class="text-danger"></span>
+                            <small class="text-muted">En az 3, en fazla 50 karakter</small>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Description" class="form-label fw-bold">
+                                <i class="fas fa-align-left me-1"></i>@Html.DisplayNameFor(model => model.Description)
+                            </label>
+                            <textarea asp-for="Description" class="form-control" rows="5"
+                                      placeholder="Görev detaylarını açıklayınız..."></textarea>
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                            <small class="text-muted">En fazla 500 karakter</small>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="AnalystId" class="form-label fw-bold">
+                                    <i class="fas fa-user-tie me-1"></i>@Html.DisplayNameFor(model => model.AnalystId)
+                                </label>
+                                <select asp-for="AnalystId" class="form-select">
+                                    <option value="">-- Analist Seçiniz --</option>
+                                    @if (ViewBag.Analysts != null)
+                                    {
+                                        @foreach (var analyst in ViewBag.Analysts)
+                                        {
+                                            <option value="@analyst.Id">@analyst.FullName</option>
+                                        }
+                                    }
+                                </select>
+                                <span asp-validation-for="AnalystId" class="text-danger"></span>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="OperationTypeId" class="form-label fw-bold">
+                                    <i class="fas fa-tag me-1"></i>@Html.DisplayNameFor(model => model.OperationTypeId)
+                                </label>
+                                <select asp-for="OperationTypeId" class="form-select">
+                                    <option value="">-- İşlem Tipi Seçiniz --</option>
+                                    @if (ViewBag.OperationTypes != null)
+                                    {
+                                        @foreach (var op in ViewBag.OperationTypes)
+                                        {
+                                            <option value="@op.Id">
+                                                @op.Name (Zorluk: @op.DifficultyLevel)
+                                            </option>
+                                        }
+                                    }
+                                </select>
+                                <span asp-validation-for="OperationTypeId" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between mt-4">
+                            <a asp-action="Index" class="btn btn-secondary">
+                                <i class="fas fa-arrow-left me-1"></i>Geri Dön
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save me-1"></i>Görevi Kaydet
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- jQuery ve Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Validation Scripts -->
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+<style>
+    .card {
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    }
+
+    .card-header {
+        border-radius: 15px 15px 0 0 !important;
+        padding: 1.2rem 1.5rem;
+    }
+
+    .form-label {
+        margin-bottom: 0.5rem;
+        color: #495057;
+    }
+
+    .form-control, .form-select {
+        border-radius: 8px;
+        border: 1px solid #dee2e6;
+        padding: 0.6rem 1rem;
+    }
+
+        .form-control:focus, .form-select:focus {
+            border-color: #80bdff;
+            box-shadow: 0 0 0 0.2rem rgba(0,123,255,0.25);
+        }
+
+    .btn {
+        padding: 0.6rem 2rem;
+        border-radius: 8px;
+        font-weight: 500;
+    }
+
+    .text-danger {
+        font-size: 0.85rem;
+        margin-top: 0.25rem;
+    }
+</style>

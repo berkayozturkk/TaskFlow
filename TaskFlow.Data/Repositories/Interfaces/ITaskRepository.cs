@@ -9,5 +9,7 @@ public interface ITaskRepository : IGenericRepository<Models.Entities.Task>
             int? developerId = null,
             AssignmentStatus? status = null,
             int? difficulty = null);
+    Task<IEnumerable<Models.Entities.Task>> GetTasksByStatusAsync(AssignmentStatus status);
+    Task<IEnumerable<Models.Entities.Task>> GetPendingTasksWithoutDifficultyAsync();
 }
 

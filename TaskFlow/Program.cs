@@ -21,6 +21,7 @@ builder.Services.AddScoped<ITaskRepository, TaskRepository>();
 builder.Services.AddScoped<ITaskService, TaskService>();
 builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 builder.Services.AddScoped<IRoleService,RoleService >();
+builder.Services.AddScoped<IOperationTypeService, OperationTypeService >();
 
 var app = builder.Build();
 

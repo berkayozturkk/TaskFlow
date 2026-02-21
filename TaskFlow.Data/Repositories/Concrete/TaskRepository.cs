@@ -35,4 +35,30 @@ public class TaskRepository : GenericRepository<TaskFlow.Models.Entities.Task>, 
 
         return await query.OrderByDescending(t => t.CreatedDate).ToListAsync();
     }
+
+    public async Task<IEnumerable<Models.Entities.Task>> GetPendingTasksWithoutDifficultyAsync()
+    {
+        return await _dbSet
+           .Include(t => t.OperationType)
+           .Include(t => t.Analyst)
+           .Include(t => t.Developer)
+           .Where(t => t.Status == AssignmentStatus.Pending)
+           .OrderByDescending(t => t.CreatedDate)
+           .AsNoTracking()
+           .ToListAsync();
+    }
+
+    public async Task<IEnumerable<Models.Entities.Task>> GetTasksByStatusAsync(AssignmentStatus status)
+    {
+        return await _dbSet
+        .Include(t => t.OperationType)
+        .Include(t => t.Analyst)
+        .ThenInclude(a => a.Role)
+        .Include(t => t.Developer)
+        .ThenInclude(d => d.Role)
+        .Where(t => t.Status == status)
+        .OrderByDescending(t => t.CreatedDate)
+        .AsNoTracking() 
+        .ToListAsync();
+    }
 }

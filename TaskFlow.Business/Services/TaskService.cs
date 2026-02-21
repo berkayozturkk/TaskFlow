@@ -23,6 +23,13 @@ namespace TaskFlow.Business.Services
             _operationTypeRepository = operationTypeRepository;
         }
 
+        public async Task<TaskDto> GetByIdAsync(int id)
+        {
+            var task = await _taskRepository.GetByIdAsync(id);
+            var dto = await MapToDto(task);
+            return dto;
+        }
+
         public async Task<IEnumerable<TaskDto>> GetAllTasksAsync()
         {
             var tasks = await _taskRepository.GetAllAsync();
@@ -46,6 +53,19 @@ namespace TaskFlow.Business.Services
             {
                 var dto = await MapToDto(task);
                 taskDtos.Add(dto);
+            }
+
+            return taskDtos;
+        }
+
+        public async Task<IEnumerable<TaskDto>> GetTasksByStatusAsync(AssignmentStatus status)
+        {
+            var tasks = await _taskRepository.GetTasksByStatusAsync(status);
+
+            var taskDtos = new List<TaskDto>();
+            foreach (var task in tasks)
+            {
+                taskDtos.Add(await MapToDto(task));
             }
 
             return taskDtos;
@@ -103,6 +123,59 @@ namespace TaskFlow.Business.Services
             dto.CompletedDate = task.CompletedDate;
 
             return dto;
+        }
+
+        public async Task UpdateTaskOperationTypeAsync(int taskId, int operationTypeId)
+        {
+            var task = await _taskRepository.GetByIdAsync(taskId);
+            if (task == null)
+                throw new Exception("Task bulunamadı!");
+
+            var operationType = await _operationTypeRepository.GetByIdAsync(operationTypeId);
+            if (operationType == null)
+                throw new Exception("Geçersiz işlem tipi!");
+
+            task.OperationTypeId = operationTypeId;
+            task.OperationType = operationType;
+            task.AnalystId = 1;
+
+            await _taskRepository.Update(task);
+        }
+
+        public async Task<IEnumerable<TaskDto>> GetPendingTasksWithoutDifficultyAsync()
+        {
+            var allTasks = await _taskRepository.GetAllAsync();
+
+            //var tasks = await _taskRepository.GetPendingTasksWithoutDifficultyAsync();
+
+            var taskDtos = new List<TaskDto>();
+            foreach (var task in allTasks.Where(t => t.Status == AssignmentStatus.Pending && t.OperationTypeId == 0))
+                taskDtos.Add(await MapToDto(task));
+
+            return taskDtos;
+        }
+
+        public async Task CreateTaskAsync(CreateTaskDto createTask)
+        {
+            var analyst = await _employeeRepository.GetByIdAsync(createTask.AnalystId);
+            if (analyst == null)
+                throw new Exception("Seçilen analist bulunamadı!");
+
+            var operationType = await _operationTypeRepository.GetByIdAsync(createTask.OperationTypeId);
+            if (operationType == null)
+                throw new Exception("Seçilen işlem tipi bulunamadı!");
+
+            var task = new EntityTask
+            {
+                Title = createTask.Title,
+                Description = createTask.Description,
+                AnalystId = createTask.AnalystId,
+                OperationTypeId = createTask.OperationTypeId,
+                Status = AssignmentStatus.Pending,
+                CreatedDate = DateTime.Now
+            };
+
+            await _taskRepository.AddAsync(task);
         }
     }
 }

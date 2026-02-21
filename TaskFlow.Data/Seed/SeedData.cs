@@ -201,8 +201,8 @@ namespace TaskFlow.Data.Seed
                     {
                         Title = "Acil: Aylık Satış Raporu Hatası",
                         Description = "Satış raporu yanlış hesaplama yapıyor, acil düzeltilmeli",
-                        OperationTypeId = 3, 
-                        AnalystId = 1,
+                        OperationTypeId = 0, 
+                        AnalystId = 2,
                         Status = AssignmentStatus.Pending,
                         CreatedDate = DateTime.Now.AddHours(-2)
                     },
@@ -210,7 +210,7 @@ namespace TaskFlow.Data.Seed
                     {
                         Title = "Yeni Müşteri Kayıt Formu",
                         Description = "Müşteri kayıt formuna 'T.C. Kimlik' alanı eklenecek",
-                        OperationTypeId = 2, 
+                        OperationTypeId = 0, 
                         AnalystId = 1,
                         Status = AssignmentStatus.Pending,
                         CreatedDate = DateTime.Now.AddHours(-5)
@@ -219,7 +219,7 @@ namespace TaskFlow.Data.Seed
                     {
                         Title = "Stok Raporu Performans Sorunu",
                         Description = "Stok raporu 30 saniyede açılıyor, 5 saniyenin altına düşürülmeli",
-                        OperationTypeId = 4, 
+                        OperationTypeId = 0, 
                         AnalystId = 2,
                         Status = AssignmentStatus.Pending,
                         CreatedDate = DateTime.Now.AddDays(-1)
@@ -348,8 +348,8 @@ namespace TaskFlow.Data.Seed
                     {
                         Title = "Yapay Zeka Destekli Raporlama",
                         Description = "Satış tahminleri için yapay zeka modülü geliştirilecek",
-                        OperationTypeId = 8, 
-                        AnalystId = 2,
+                        OperationTypeId = 0, 
+                        AnalystId = 0,
                         Status = AssignmentStatus.Pending,
                         CreatedDate = DateTime.Now.AddHours(-1)
                     },

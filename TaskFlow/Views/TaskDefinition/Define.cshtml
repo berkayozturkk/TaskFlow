@@ -1,0 +1,64 @@
+﻿@model TaskFlow.Business.DTOs.TaskDto
+
+@{
+    ViewData["Title"] = "Zorluk Tanımla";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-warning text-white">
+                    <h4 class="mb-0">
+                        <i class="fas fa-chart-line me-2"></i>Zorluk Tanımla
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="mb-4 p-3 bg-light rounded">
+                        <h5>@Model.Title</h5>
+                        <p class="text-muted mb-2">@Model.Description</p>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <small class="text-muted">Analist:</small>
+                                <p class="fw-bold">@Model.AnalystName</p>
+                            </div>
+                            <div class="col-md-6">
+                                <small class="text-muted">Oluşturulma:</small>
+                                <p class="fw-bold">@Model.CreatedDateFormatted</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <form asp-action="Define" method="post">
+                        <input type="hidden" name="taskId" value="@Model.Id" />
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Zorluk Seviyesi</label>
+                            <select name="operationTypeId" class="form-select form-select-lg" required>
+                                <option value="">Seçiniz...</option>
+                                @foreach (var op in ViewBag.OperationTypes)
+                                {
+                                    <option value="@op.Id">
+                                        @op.Name (Zorluk: @op.DifficultyLevel)
+                                    </option>
+                                }
+                            </select>
+                            <small class="text-muted">Task için uygun zorluk seviyesini seçin</small>
+                        </div>
+
+                        <div class="d-flex justify-content-between mt-4">
+                            <a asp-action="Index" class="btn btn-secondary btn-lg">
+                                <i class="fas fa-times me-1"></i>İptal
+                            </a>
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-save me-1"></i>Zorluğu Kaydet
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
