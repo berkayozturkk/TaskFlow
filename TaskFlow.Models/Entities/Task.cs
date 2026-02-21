@@ -1,4 +1,5 @@
 ﻿using TaskFlow.Models.Base;
+using TaskFlow.Models.Enums;
 
 namespace TaskFlow.Models.Entities;
 
@@ -14,7 +15,7 @@ public class Task : BaseEntity
     public Employee? Analyst { get; set; }
     public int? DeveloperId { get; set; }           
     public Employee? Developer { get; set; }
-    public TaskStatus Status { get; set; }   
+    public AssignmentStatus Status { get; set; }   
     public DateTime CreatedDate { get; set; }
     public DateTime? AssignedDate { get; set; }
     public DateTime? CompletedDate { get; set; }

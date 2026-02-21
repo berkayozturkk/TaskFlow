@@ -4,5 +4,5 @@ public abstract class BaseEntity
 {
     public BaseEntity() {}
 
-    public string Id { get; set; }
+    public int Id { get; set; }
 }

@@ -4,6 +4,7 @@ using TaskFlow.Data.Repositories.Interfaces;
 using TaskFlow.Data.Repositories;
 using TaskFlow.Business.Interfaces;
 using TaskFlow.Business.Services;
+using TaskFlow.Data.Seed;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +24,12 @@ builder.Services.AddScoped<IRoleService,RoleService >();
 builder.Services.AddScoped<ITaskService,TaskService >();
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    await SeedData.SeedAsync(context);
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
