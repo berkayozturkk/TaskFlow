@@ -177,5 +177,27 @@ namespace TaskFlow.Business.Services
 
             await _taskRepository.AddAsync(task);
         }
+
+        public async Task<IEnumerable<TaskDto>> GetUnassignedTasksAsync()
+        {
+            var tasks = await _taskRepository.GetUnassignedTasksAsync();
+
+            var taskDtos = new List<TaskDto>();
+            foreach (var task in tasks)
+                taskDtos.Add(await MapToDto(task));
+
+            return taskDtos;
+        }
+
+        public async Task<IEnumerable<TaskDto>> GetAssignedTasksAsync()
+        {
+            var tasks = await _taskRepository.GetAssignedTasksAsync();
+
+            var taskDtos = new List<TaskDto>();
+            foreach (var task in tasks)
+                taskDtos.Add(await MapToDto(task));
+
+            return taskDtos;
+        }
     }
 }

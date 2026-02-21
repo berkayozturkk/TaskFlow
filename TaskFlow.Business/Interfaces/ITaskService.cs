@@ -13,5 +13,7 @@ public interface ITaskService
     Task<IEnumerable<TaskDto>> GetPendingTasksWithoutDifficultyAsync();
     Task UpdateTaskOperationTypeAsync(int taskId, int operationTypeId);
     Task CreateTaskAsync(CreateTaskDto createTask);
+    Task<IEnumerable<TaskDto>> GetUnassignedTasksAsync();
+    Task<IEnumerable<TaskDto>> GetAssignedTasksAsync();
 }
 

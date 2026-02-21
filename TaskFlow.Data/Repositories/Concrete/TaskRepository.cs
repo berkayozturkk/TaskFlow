@@ -9,6 +9,22 @@ public class TaskRepository : GenericRepository<TaskFlow.Models.Entities.Task>, 
 {
     public TaskRepository(AppDbContext context) : base(context) {}
 
+    public async Task<IEnumerable<Models.Entities.Task>> GetAssignedTasksAsync()
+    {
+        return await _dbSet
+        .Include(t => t.OperationType)
+        .Include(t => t.Analyst)
+        .ThenInclude(a => a.Role)
+        .Include(t => t.Developer)
+        .ThenInclude(d => d.Role)
+        .Where(t => t.DeveloperId != null
+                    && (t.Status == AssignmentStatus.Assigned
+                        || t.Status == AssignmentStatus.InProgress))
+        .OrderByDescending(t => t.AssignedDate)
+        .AsNoTracking()
+        .ToListAsync();
+    }
+
     public async Task<IEnumerable<Models.Entities.Task>> GetFilteredTasksAsync(int? analystId = null, int? developerId = null, AssignmentStatus? status = null, int? difficulty = null)
     {
         var query = _dbSet
@@ -60,5 +76,19 @@ public class TaskRepository : GenericRepository<TaskFlow.Models.Entities.Task>, 
         .OrderByDescending(t => t.CreatedDate)
         .AsNoTracking() 
         .ToListAsync();
+    }
+
+    public async Task<IEnumerable<Models.Entities.Task>> GetUnassignedTasksAsync()
+    {
+        return await _dbSet
+         .Include(t => t.OperationType)
+         .Include(t => t.Analyst)
+         .ThenInclude(a => a.Role)
+         .Where(t => t.Status == AssignmentStatus.Pending
+                     && t.DeveloperId == null                    
+                     && t.OperationTypeId != 0)                  
+         .OrderByDescending(t => t.CreatedDate)
+         .AsNoTracking()
+         .ToListAsync();
     }
 }
