@@ -1,8 +1,356 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Task Listesi";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12">
+            <h2 class="mb-4">
+                <i class="fas fa-tasks me-2"></i>Task Listesi
+            </h2>
+        </div>
+    </div>
+
+    <!-- Filtre Bölümü -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-3">
+                            <label class="form-label"><i class="fas fa-user-tie me-1"></i>Analist</label>
+                            <select class="form-select" id="analystFilter">
+                                <option value="">Tüm Analistler</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label"><i class="fas fa-user-cog me-1"></i>Developer</label>
+                            <select class="form-select" id="developerFilter">
+                                <option value="">Tüm Developerlar</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label"><i class="fas fa-filter me-1"></i>Durum</label>
+                            <select class="form-select" id="statusFilter">
+                                <option value="">Tüm Durumlar</option>
+                                <option value="1">Bekliyor</option>
+                                <option value="2">Atandı</option>
+                                <option value="3">Devam Ediyor</option>
+                                <option value="4">Tamamlandı</option>
+                                <option value="5">İptal</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label"><i class="fas fa-chart-line me-1"></i>Zorluk</label>
+                            <select class="form-select" id="difficultyFilter">
+                                <option value="">Tüm Zorluklar</option>
+                                <option value="1">1 - Çok Kolay</option>
+                                <option value="2">2 - Kolay</option>
+                                <option value="3">3 - Normal</option>
+                                <option value="4">4 - Orta</option>
+                                <option value="5">5 - Zor</option>
+                                <option value="6">6 - Çok Zor</option>
+                                <option value="7">7 - Uzman</option>
+                                <option value="8">8 - Efsane</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2 d-flex align-items-end">
+                            <button class="btn btn-primary w-100" id="applyFilters">
+                                <i class="fas fa-search me-1"></i>Filtrele
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="row mt-3">
+                        <div class="col-12">
+                            <small class="text-muted">
+                                <i class="fas fa-info-circle me-1"></i>
+                                <span id="taskCount">0</span> task gösteriliyor
+                            </small>
+                            <button class="btn btn-sm btn-outline-secondary float-end" id="clearFilters">
+                                <i class="fas fa-times"></i> Filtreleri Temizle
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Yükleniyor -->
+    <div id="loadingContainer" class="text-center my-5">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="visually-hidden">Yükleniyor...</span>
+        </div>
+        <p class="mt-2 text-muted">Veriler yükleniyor...</p>
+    </div>
+
+    <!-- Hata -->
+    <div id="errorContainer" class="alert alert-danger" style="display: none;">
+        <i class="fas fa-exclamation-triangle me-2"></i>
+        <span id="errorMessage"></span>
+    </div>
+
+    <!-- Task Tablosu -->
+    <div id="tableContainer" style="display: none;">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover table-bordered" id="taskTable">
+                        <thead class="table-light">
+                            <tr>
+                                <th>ID</th>
+                                <th>Başlık</th>
+                                <th>Analist</th>
+                                <th>Developer</th>
+                                <th>İşlem Tipi</th>
+                                <th>Zorluk</th>
+                                <th>Durum</th>
+                                <th>Oluşturulma</th>
+                                <th>İşlemler</th>
+                            </tr>
+                        </thead>
+                        <tbody id="taskTableBody">
+                            <!-- AJAX ile doldurulacak -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sonuç Yok -->
+    <div id="noDataContainer" class="alert alert-info text-center" style="display: none;">
+        <i class="fas fa-info-circle me-2"></i>Gösterilecek task bulunamadı.
+    </div>
 </div>
+
+<!-- jQuery ve Bootstrap -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    let allTasks = [];
+    let analysts = [];
+    let developers = [];
+
+    $(document).ready(function () {
+        // Sayfa yüklenirken tüm taskları getir
+        loadFilteredTasks();
+
+        // Filtrele butonuna tıklanınca
+        $('#applyFilters').click(function () {
+            loadFilteredTasks();
+        });
+
+        // Filtreleri temizle
+        $('#clearFilters').click(function () {
+            $('#analystFilter').val('');
+            $('#developerFilter').val('');
+            $('#statusFilter').val('');
+            $('#difficultyFilter').val('');
+            loadFilteredTasks();
+        });
+    });
+
+    function loadFilteredTasks() {
+        showLoading();
+
+        // Filtre değerlerini al
+        var analystId = $('#analystFilter').val();
+        var developerId = $('#developerFilter').val();
+        var status = $('#statusFilter').val();
+        var difficulty = $('#difficultyFilter').val();
+
+        // Query string oluştur
+        var queryParams = [];
+        if (analystId) queryParams.push('analystId=' + analystId);
+        if (developerId) queryParams.push('developerId=' + developerId);
+        if (status) queryParams.push('status=' + status);
+        if (difficulty) queryParams.push('difficulty=' + difficulty);
+
+        var queryString = queryParams.length > 0 ? '?' + queryParams.join('&') : '';
+
+        $.ajax({
+            url: '/Home/GetTasks' + queryString,
+            type: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                allTasks = response.tasks;
+                analysts = response.analysts;
+                developers = response.developers;
+
+                // Dropdownları doldur
+                populateFilters();
+
+                // Taskları göster
+                renderTasks(response.tasks);
+
+                hideLoading();
+            },
+            error: function (xhr, status, error) {
+                showError('Veriler yüklenirken hata oluştu: ' + error);
+                hideLoading();
+            }
+        });
+    }
+
+    function populateFilters() {
+        // Analist dropdown - sadece bir kere doldur
+        if ($('#analystFilter option').length <= 1) {
+            var analystSelect = $('#analystFilter');
+            analysts.forEach(function (a) {
+                analystSelect.append(`<option value="${a.id}">${a.fullName}</option>`);
+            });
+        }
+
+        // Developer dropdown - sadece bir kere doldur
+        if ($('#developerFilter option').length <= 1) {
+            var devSelect = $('#developerFilter');
+            developers.forEach(function (d) {
+                devSelect.append(`<option value="${d.id}">${d.fullName}</option>`);
+            });
+        }
+    }
+
+    function renderTasks(tasks) {
+        var tbody = $('#taskTableBody');
+        tbody.empty();
+
+        // Task sayısını güncelle
+        $('#taskCount').text(tasks.length);
+
+        if (tasks.length === 0) {
+            $('#tableContainer').hide();
+            $('#noDataContainer').show();
+            return;
+        }
+
+        $('#tableContainer').show();
+        $('#noDataContainer').hide();
+
+        tasks.forEach(function (task) {
+            var statusClass = getStatusClass(task.status);
+            var difficultyBadge = getDifficultyBadge(task.difficultyLevel);
+
+            var row = '<tr>' +
+                '<td>' + task.id + '</td>' +
+                '<td>' + escapeHtml(task.title) + '</td>' +
+                '<td>' + escapeHtml(task.analystName) + '</td>' +
+                '<td>' + (task.developerName ? escapeHtml(task.developerName) : '<span class="badge bg-secondary">Atanmamış</span>') + '</td>' +
+                '<td>' + escapeHtml(task.operationTypeName) + '</td>' +
+                '<td class="text-center">' + difficultyBadge + '</td>' +
+                '<td><span class="' + statusClass + '">' + task.status + '</span></td>' +
+                '<td>' + formatDate(task.createdDate) + '</td>' +
+                '<td class="text-center">' +
+                '<a href="/TaskDifficulty/Index/' + task.id + '" class="btn btn-sm btn-warning me-1" title="Zorluk Ver">' +
+                '<i class="fas fa-chart-line"></i></a>' +
+                '<a href="/TaskAssignment/Index/' + task.id + '" class="btn btn-sm btn-success" title="Ata">' +
+                '<i class="fas fa-user-check"></i></a>' +
+                '</td>' +
+                '</tr>';
+
+            tbody.append(row);
+        });
+    }
+
+    // Yardımcı fonksiyonlar
+    function getStatusClass(status) {
+        switch (status) {
+            case 'Bekliyor': return 'badge bg-warning';
+            case 'Atandı': return 'badge bg-info';
+            case 'Devam Ediyor': return 'badge bg-primary';
+            case 'Tamamlandı': return 'badge bg-success';
+            case 'İptal': return 'badge bg-danger';
+            default: return 'badge bg-secondary';
+        }
+    }
+
+    function getDifficultyBadge(level) {
+        var colors = {
+            1: 'bg-success',
+            2: 'bg-info',
+            3: 'bg-primary',
+            4: 'bg-warning',
+            5: 'bg-warning',
+            6: 'bg-danger',
+            7: 'bg-dark',
+            8: 'bg-dark'
+        };
+        var color = colors[level] || 'bg-secondary';
+        return '<span class="badge ' + color + '">' + level + '</span>';
+    }
+
+    function formatDate(dateString) {
+        if (!dateString) return '-';
+        var date = new Date(dateString);
+        return date.toLocaleDateString('tr-TR') + ' ' +
+            date.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
+    }
+
+    function escapeHtml(text) {
+        if (!text) return '';
+        var div = document.createElement('div');
+        div.appendChild(document.createTextNode(text));
+        return div.innerHTML;
+    }
+
+    function showLoading() {
+        $('#loadingContainer').show();
+        $('#tableContainer').hide();
+        $('#errorContainer').hide();
+        $('#noDataContainer').hide();
+    }
+
+    function hideLoading() {
+        $('#loadingContainer').hide();
+    }
+
+    function showError(message) {
+        $('#errorMessage').text(message);
+        $('#errorContainer').show();
+    }
+</script>
+
+<style>
+    .card {
+        border: none;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .table th {
+        font-weight: 600;
+        background-color: #f8f9fc;
+        color: #2e384d;
+    }
+
+    .badge {
+        padding: 6px 10px;
+        font-size: 0.85rem;
+        font-weight: 500;
+    }
+
+    .btn-sm {
+        padding: 4px 8px;
+    }
+
+    .form-select, .form-control {
+        border-radius: 8px;
+        border: 1px solid #dee2e6;
+    }
+
+        .form-select:focus, .form-control:focus {
+            box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.15);
+            border-color: #86b7fe;
+        }
+
+    #taskTable td {
+        vertical-align: middle;
+    }
+</style>
