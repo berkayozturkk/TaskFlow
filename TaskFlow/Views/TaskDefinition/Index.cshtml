@@ -9,6 +9,12 @@
         <i class="fas fa-pen-to-square me-2"></i>Görev Tanımlama
     </h2>
 
+    <div class="alert alert-info mb-4">
+        <i class="fas fa-info-circle me-2"></i>
+        <strong>Bilgi:</strong> Bu ekranda yalnızca <strong>zorluk seviyesi henüz tanımlanmamış</strong> görevler listelenir.
+        Zorluğu tanımlanan görevler otomatik olarak bu listeden kaybolur ve ana sayfada görüntülenir.
+    </div>
+
     @if (TempData["Success"] != null)
     {
         <div class="alert alert-success alert-dismissible fade show" role="alert">
