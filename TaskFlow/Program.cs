@@ -1,25 +1,14 @@
-using Microsoft.EntityFrameworkCore;
 using TaskFlow.Data.Context;
-using TaskFlow.Data.Repositories.Interfaces;
-using TaskFlow.Data.Repositories;
-using TaskFlow.Business.Interfaces;
-using TaskFlow.Business.Services;
 using TaskFlow.Data.Seed;
 using TaskFlow.Business;
+using TaskFlow.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddDbContext<AppDbContext>(options => options.UseInMemoryDatabase("TaskDistributionDB"));
-builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
-builder.Services.AddScoped<IRoleRepository, RoleRepository>();
-builder.Services.AddScoped<IOperationTypeRepository, OperationTypeRepository>();
-builder.Services.AddScoped<ITaskRepository, TaskRepository>();
-
-
+builder.Services.AddData();  // Tüm Data servisleri tek seferde eklenir
 builder.Services.AddBusiness(); // Tüm Business servisleri tek seferde eklenir
 
 var app = builder.Build();
