@@ -14,7 +14,7 @@ public static class DependencyInjection
         services.AddScoped<IRoleService, RoleService>();
         services.AddScoped<IOperationTypeService, OperationTypeService>();
         services.AddScoped<ITaskDistributionService, TaskDistributionService>();
-        services.AddScoped<ITaskAssignmentStrategy, LeastWorkloadStrategy>();
+        services.AddSingleton<ITaskAssignmentStrategy, LeastWorkloadStrategy>();
 
         return services;
     }
