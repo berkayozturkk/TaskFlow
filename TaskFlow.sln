@@ -3,13 +3,18 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34511.84
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskFlow", "TaskFlow\TaskFlow.csproj", "{750134F9-2B16-4E12-943B-DE66808B37F4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskFlow", "TaskFlow\TaskFlow.csproj", "{750134F9-2B16-4E12-943B-DE66808B37F4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskFlow.Business", "TaskFlow.Business\TaskFlow.Business.csproj", "{3A0A2937-ACC3-458E-AFEB-BDCBDFCB4059}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskFlow.Business", "TaskFlow.Business\TaskFlow.Business.csproj", "{3A0A2937-ACC3-458E-AFEB-BDCBDFCB4059}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskFlow.Models", "TaskFlow.Models\TaskFlow.Models.csproj", "{96E67D82-5110-4530-910F-45707310086E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskFlow.Models", "TaskFlow.Models\TaskFlow.Models.csproj", "{96E67D82-5110-4530-910F-45707310086E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskFlow.Data", "TaskFlow.Data\TaskFlow.Data.csproj", "{BB4ED43F-24F5-4007-A16F-913696143437}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskFlow.Data", "TaskFlow.Data\TaskFlow.Data.csproj", "{BB4ED43F-24F5-4007-A16F-913696143437}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{17AF3B0D-72E3-432A-B90B-91C8A15F0C67}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
