@@ -44,23 +44,21 @@ flowchart TD
     E -- Yes --> F{Developers Exist?}
 
     F -- No --> Z
-    F -- Yes --> G[Calculate Workload Scores<br/>Workload = Σ(BaseTaskWeight + Difficulty)]
+    F -- Yes --> G[Calculate Workload Scores - Sum(BaseTaskWeight + Difficulty)]
 
-    G --> H[Sort Unassigned Tasks<br/>by CreatedDate Asc]
+    G --> H[Sort Unassigned Tasks by CreatedDate]
 
     H --> I{More Tasks?}
     I -- No --> Z
-    I -- Yes --> J[Select Developer<br/>with Minimum Workload Score]
+    I -- Yes --> J[Select Developer with Minimum Workload]
 
-    J --> K[Assign Task<br/>Set DeveloperId<br/>Set Status = Assigned<br/>Set AssignedDate]
+    J --> K[Assign Task - Set DeveloperId, Status=Assigned]
 
-    K --> L[Update Workload Score<br/>Score += BaseTaskWeight + Difficulty]
+    K --> L[Update Workload Score + BaseTaskWeight + Difficulty]
 
     L --> I
 ```
 
-
-    
 ##  Ekranlar
 
 ### Ana Sayfa / Task Listesi
