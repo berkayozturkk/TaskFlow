@@ -5,6 +5,7 @@ using TaskFlow.Data.Repositories;
 using TaskFlow.Business.Interfaces;
 using TaskFlow.Business.Services;
 using TaskFlow.Data.Seed;
+using TaskFlow.Business;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,11 +19,8 @@ builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 builder.Services.AddScoped<IOperationTypeRepository, OperationTypeRepository>();
 builder.Services.AddScoped<ITaskRepository, TaskRepository>();
 
-builder.Services.AddScoped<ITaskService, TaskService>();
-builder.Services.AddScoped<IEmployeeService, EmployeeService>();
-builder.Services.AddScoped<IRoleService,RoleService >();
-builder.Services.AddScoped<IOperationTypeService, OperationTypeService >();
-builder.Services.AddScoped<ITaskDistributionService, TaskDistributionService>();
+
+builder.Services.AddBusiness(); // Tüm Business servisleri tek seferde eklenir
 
 var app = builder.Build();
 
