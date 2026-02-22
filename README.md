@@ -78,10 +78,10 @@ Projeyi klonladıktan sonra aşağıdaki komut ile çalıştırmanız yeterlidir
 ```bash
 git clone https://github.com/berkayozturkk/TaskFlow.git
 cd TaskFlow
+cd TaskFlow
 dotnet run
 ```
-
-veya Visual Studio üzerinden Solution dosyasını açıp F5 ile başlatabilirsiniz.
+Uygulama çalıştırıldığında konsolda belirtilen localhost adresinden erişilebilir veya Visual Studio üzerinden Solution dosyasını açıp F5 ile başlatabilirsiniz.
 
 ## Veritabanı
 
