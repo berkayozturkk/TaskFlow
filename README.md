@@ -50,13 +50,19 @@ flowchart TD
 
     H --> I{"More Tasks?"}
     I -- No --> Z
-    I -- Yes --> J["Select Developer with Minimum Workload"]
+    I -- Yes --> J["Filter Developers by Sequential Difficulty Rule"]
 
-    J --> K["Assign Task"]
+    J --> K{"Valid Developer Exists?"}
+    K -- No --> L["Fallback to All Developers"]
+    K -- Yes --> M["Select Developer with Minimum Workload"]
 
-    K --> L["Update Workload Score"]
+    L --> M
+    M --> N["Assign Task"]
 
-    L --> I
+    N --> O["Update Workload Score"]
+
+    O --> I
+
 ```
 
 
