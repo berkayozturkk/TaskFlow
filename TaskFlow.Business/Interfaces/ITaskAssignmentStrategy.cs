@@ -2,5 +2,7 @@
 
 public interface ITaskAssignmentStrategy
 {
-    int SelectDeveloper(Models.Entities.Task task, Dictionary<int, decimal> workloadScores);
+    Task<int> SelectDeveloperAsync(Models.Entities.Task task, Dictionary<int, decimal> workloadScores,
+       IEnumerable<Models.Entities.Task> assignedTasks);
 }
+

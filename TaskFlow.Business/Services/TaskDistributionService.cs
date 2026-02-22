@@ -30,8 +30,7 @@ public class TaskDistributionService : ITaskDistributionService
 
         foreach (var task in sortedTasks)
         {
-            var bestDevId =
-                _assignmentStrategy.SelectDeveloper(task, workloadScores);
+            var bestDevId = await _assignmentStrategy.SelectDeveloperAsync(task, workloadScores, assignedTasks);
 
             task.DeveloperId = bestDevId;
             task.AssignedDate = DateTime.Now;
