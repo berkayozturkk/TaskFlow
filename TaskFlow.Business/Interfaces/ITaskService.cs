@@ -15,5 +15,8 @@ public interface ITaskService
     Task CreateTaskAsync(CreateTaskDto createTask);
     Task<IEnumerable<TaskDto>> GetUnassignedTasksAsync();
     Task<IEnumerable<TaskDto>> GetAssignedTasksAsync();
+    Task<IEnumerable<Models.Entities.Task>> GetUnassignedTaskEntitiesAsync();
+    Task<IEnumerable<Models.Entities.Task>> GetAssignedTaskEntitiesAsync();
+    Task UpdateTaskAsync(Models.Entities.Task task);
 }
 

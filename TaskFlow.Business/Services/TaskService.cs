@@ -1,5 +1,7 @@
-﻿using TaskFlow.Business.DTOs;
+﻿using Microsoft.EntityFrameworkCore;
+using TaskFlow.Business.DTOs;
 using TaskFlow.Business.Interfaces;
+using TaskFlow.Data.Repositories;
 using TaskFlow.Data.Repositories.Interfaces;
 using TaskFlow.Models.Enums;
 using TaskFlow.Service.DTOs;
@@ -198,6 +200,30 @@ namespace TaskFlow.Business.Services
                 taskDtos.Add(await MapToDto(task));
 
             return taskDtos;
+        }
+
+        public async Task UpdateTaskAsync(Models.Entities.Task task)
+        {
+            var existingTask = await _taskRepository.GetByIdAsync(task.Id);
+
+            if (existingTask != null)
+            {
+                existingTask.DeveloperId = task.DeveloperId;
+                existingTask.AssignedDate = task.AssignedDate;
+                existingTask.Status = task.Status;
+
+                 await _taskRepository.Update(existingTask);
+            }
+        }
+
+        public async Task<IEnumerable<Models.Entities.Task>> GetUnassignedTaskEntitiesAsync()
+        {
+            return await _taskRepository.GetUnassignedTasksAsync();
+        }
+
+        public async Task<IEnumerable<Models.Entities.Task>> GetAssignedTaskEntitiesAsync()
+        {
+            return await _taskRepository.GetAssignedTasksAsync();
         }
     }
 }

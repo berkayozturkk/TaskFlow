@@ -2,5 +2,5 @@
 
 public interface ITaskDistributionService
 {
-
+    Task<bool> SmartAssignTasksAsync();
 }

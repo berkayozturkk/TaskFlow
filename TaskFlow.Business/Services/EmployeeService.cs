@@ -69,4 +69,20 @@ public class EmployeeService : IEmployeeService
 
         return analysts;
     }
+
+    public async Task<IEnumerable<EmployeeDto>> GetDevelopersAsync()
+    {
+        var employees = await _employeeRepository.GetActiveEmployeesWithRolesAsync();
+
+        var analysts = employees
+            .Where(e => e.Role != null && e.Role.Name == "Developer")
+            .Select(e => new EmployeeDto
+            {
+                Id = e.Id,
+                FirstName = e.FirstName,
+                LastName = e.LastName
+            });
+
+        return analysts;
+    }
 }
