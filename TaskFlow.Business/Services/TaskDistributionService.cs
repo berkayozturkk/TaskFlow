@@ -7,9 +7,7 @@ public class TaskDistributionService : ITaskDistributionService
     private readonly IEmployeeService _employeeService;
     private readonly ITaskAssignmentStrategy _assignmentStrategy;
 
-    public TaskDistributionService(
-        ITaskService taskService,
-        IEmployeeService employeeService,
+    public TaskDistributionService( ITaskService taskService, IEmployeeService employeeService,
         ITaskAssignmentStrategy assignmentStrategy)
     {
         _taskService = taskService;
@@ -41,7 +39,7 @@ public class TaskDistributionService : ITaskDistributionService
 
             await _taskService.UpdateTaskAsync(task);
 
-            workloadScores[bestDevId] += 1;
+            WorkloadCalculator.UpdateWorkload(workloadScores,bestDevId, task);
         }
 
         return true;

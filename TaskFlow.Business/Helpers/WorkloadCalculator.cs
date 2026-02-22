@@ -1,15 +1,14 @@
 ﻿using TaskFlow.Business.DTOs;
 using TaskFlow.Models.Entities;
-using TaskFlow.Models.Enums;
 
 public static class WorkloadCalculator
 {
-    public static Dictionary<int, decimal> Calculate(
-        IEnumerable<EmployeeDto> developers,
+    private const int BaseTaskWeight = 1;
+
+    public static Dictionary<int, decimal> Calculate( IEnumerable<EmployeeDto> developers,
         IEnumerable<TaskFlow.Models.Entities.Task> assignedTasks)
     {
-        var taskGroups = assignedTasks
-            .GroupBy(t => t.DeveloperId)
+        var taskGroups = assignedTasks.GroupBy(t => t.DeveloperId)
             .ToDictionary(g => g.Key, g => g.ToList());
 
         var workloadScores = new Dictionary<int, decimal>();
@@ -21,12 +20,19 @@ public static class WorkloadCalculator
                 : new List<TaskFlow.Models.Entities.Task>();
 
             decimal score = devTasks.Sum(t =>
-                1 + GetDifficultyValue(t.OperationType));
+                BaseTaskWeight + GetDifficultyValue(t.OperationType));
 
             workloadScores[dev.Id] = score;
         }
 
         return workloadScores;
+    }
+
+    public static void UpdateWorkload( Dictionary<int, decimal> workloadScores, int developerId,
+        TaskFlow.Models.Entities.Task task)
+    {
+        var difficulty = GetDifficultyValue(task.OperationType);
+        workloadScores[developerId] += (BaseTaskWeight + difficulty);
     }
 
     private static int GetDifficultyValue(OperationType? operationType)
