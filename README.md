@@ -28,10 +28,11 @@ Sistem, mevcut iş yükü ve görev zorluk seviyelerini dikkate alarak otomatik 
 - Strategy Pattern (Görev atama algoritması için)
 - Dinamik iş yükü hesaplama mekanizması
 
-##  Akıllı Atama Algoritması
+## Akıllı Atama Algoritması
 
 Sistem, görevleri geliştiricilerin mevcut iş yüküne göre dağıtır.
 
+```mermaid
 flowchart TD
 
     A([Start]) --> B[Get Unassigned Tasks]
@@ -56,6 +57,8 @@ flowchart TD
     K --> L[Update Workload Score<br/>Score += BaseTaskWeight + Difficulty]
 
     L --> I
+```
+
 
     
 ##  Ekranlar
