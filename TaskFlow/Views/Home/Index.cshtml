@@ -112,7 +112,6 @@
                                 <th>Zorluk</th>
                                 <th>Durum</th>
                                 <th>Oluşturulma</th>
-                                <th>İşlemler</th>
                             </tr>
                         </thead>
                         <tbody id="taskTableBody">
@@ -247,12 +246,6 @@
                 '<td class="text-center">' + difficultyBadge + '</td>' +
                 '<td><span class="' + statusClass + '">' + task.status + '</span></td>' +
                 '<td>' + formatDate(task.createdDate) + '</td>' +
-                '<td class="text-center">' +
-                '<a href="/TaskDifficulty/Index/' + task.id + '" class="btn btn-sm btn-warning me-1" title="Zorluk Ver">' +
-                '<i class="fas fa-chart-line"></i></a>' +
-                '<a href="/TaskAssignment/Index/' + task.id + '" class="btn btn-sm btn-success" title="Ata">' +
-                '<i class="fas fa-user-check"></i></a>' +
-                '</td>' +
                 '</tr>';
 
             tbody.append(row);
