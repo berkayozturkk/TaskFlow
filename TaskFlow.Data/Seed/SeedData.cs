@@ -226,6 +226,15 @@ namespace TaskFlow.Data.Seed
                     },
                     new TaskFlow.Models.Entities.Task
                     {
+                        Title = "Yapay Zeka Destekli Raporlama",
+                        Description = "Satış tahminleri için yapay zeka modülü geliştirilecek",
+                        OperationTypeId = 0,
+                        AnalystId = 2,
+                        Status = AssignmentStatus.Pending,
+                        CreatedDate = DateTime.Now.AddHours(-1)
+                    },
+                    new TaskFlow.Models.Entities.Task
+                    {
                         Title = "Excel Export Hatası",
                         Description = "Raporları Excel'e aktarırken tarih formatı bozuluyor",
                         OperationTypeId = 1, 
@@ -233,7 +242,53 @@ namespace TaskFlow.Data.Seed
                         Status = AssignmentStatus.Pending,
                         CreatedDate = DateTime.Now.AddHours(-8)
                     },
-    
+                    new TaskFlow.Models.Entities.Task
+                    {
+                        Title = "Müşteri Kayıt Formuna Alan Eklenecek",
+                        Description = "Müşteri kayıt formuna 'Vergi Dairesi' alanı eklenmeli",
+                        OperationTypeId = 3,  
+                        AnalystId = 2,
+                        Status = AssignmentStatus.Pending,
+                        CreatedDate = DateTime.Now.AddHours(-3)
+                    },
+                    new TaskFlow.Models.Entities.Task
+                    {
+                        Title = "Stok Raporu Çok Yavaş",
+                        Description = "Stok raporu 45 saniyede açılıyor, acil optimizasyon gerekli",
+                        OperationTypeId = 4, 
+                        AnalystId = 1,
+                        Status = AssignmentStatus.Pending,
+                        CreatedDate = DateTime.Now.AddHours(-20)
+                    },
+                    new TaskFlow.Models.Entities.Task
+                    {
+                        Title = "Yeni Müşteri API Entegrasyonu",
+                        Description = "Müşteri bilgilerini otomatik çekmek için harici API entegrasyonu yapılacak",
+                        OperationTypeId = 5, 
+                        AnalystId = 3,
+                        Status = AssignmentStatus.Pending,
+                        CreatedDate = DateTime.Now.AddDays(-3)
+                    },
+                    new TaskFlow.Models.Entities.Task
+                    {
+                        Title = "Veritabanı Performans İyileştirmesi",
+                        Description = "Yavaş çalışan raporlar için indeksleme ve sorgu optimizasyonu",
+                        OperationTypeId = 6,  
+                        AnalystId = 2,
+                        Status = AssignmentStatus.Assigned,
+                        AssignedDate = DateTime.Now.AddDays(-1),
+                        DeveloperId = 1
+                    },
+                    new TaskFlow.Models.Entities.Task
+                    {
+                        Title = "Yapay Zeka Destekli Raporlama Modülü",
+                        Description = "Raporlara tahminsel analiz eklenmesi için yeni algoritma geliştirilecek",
+                        OperationTypeId = 7,  
+                        AnalystId = 1,
+                        Status = AssignmentStatus.Pending,
+                        CreatedDate = DateTime.Now.AddDays(-5)
+                    },
+
                     //  ATANMIS TASKLER (Assigned) 
                     new TaskFlow.Models.Entities.Task
                     {
@@ -344,15 +399,6 @@ namespace TaskFlow.Data.Seed
                     },
     
                     // ZOR TASKLER (Difficulty 7-8)
-                    new TaskFlow.Models.Entities.Task
-                    {
-                        Title = "Yapay Zeka Destekli Raporlama",
-                        Description = "Satış tahminleri için yapay zeka modülü geliştirilecek",
-                        OperationTypeId = 0, 
-                        AnalystId = 0,
-                        Status = AssignmentStatus.Pending,
-                        CreatedDate = DateTime.Now.AddHours(-1)
-                    },
                     new TaskFlow.Models.Entities.Task
                     {
                         Title = "Mikroservis Mimarisi Geçişi",
