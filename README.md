@@ -35,29 +35,30 @@ Sistem, görevleri geliştiricilerin mevcut iş yüküne göre dağıtır.
 ```mermaid
 flowchart TD
 
-    A([Start]) --> B[Get Unassigned Tasks]
-    B --> C[Get Developers]
-    C --> D[Get Assigned Tasks]
+    A([Start]) --> B["Get Unassigned Tasks"]
+    B --> C["Get Developers"]
+    C --> D["Get Assigned Tasks"]
 
-    D --> E{Unassigned Tasks Exist?}
+    D --> E{"Unassigned Tasks Exist?"}
     E -- No --> Z([End])
-    E -- Yes --> F{Developers Exist?}
+    E -- Yes --> F{"Developers Exist?"}
 
     F -- No --> Z
-    F -- Yes --> G[Calculate Workload Scores - Sum(BaseTaskWeight + Difficulty)]
+    F -- Yes --> G["Calculate Workload Scores"]
 
-    G --> H[Sort Unassigned Tasks by CreatedDate]
+    G --> H["Sort Unassigned Tasks by CreatedDate"]
 
-    H --> I{More Tasks?}
+    H --> I{"More Tasks?"}
     I -- No --> Z
-    I -- Yes --> J[Select Developer with Minimum Workload]
+    I -- Yes --> J["Select Developer with Minimum Workload"]
 
-    J --> K[Assign Task - Set DeveloperId, Status=Assigned]
+    J --> K["Assign Task"]
 
-    K --> L[Update Workload Score + BaseTaskWeight + Difficulty]
+    K --> L["Update Workload Score"]
 
     L --> I
 ```
+
 
 ##  Ekranlar
 
