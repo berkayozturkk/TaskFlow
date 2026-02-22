@@ -55,13 +55,11 @@ public class TaskRepository : GenericRepository<TaskFlow.Models.Entities.Task>, 
     public async Task<IEnumerable<Models.Entities.Task>> GetPendingTasksWithoutDifficultyAsync()
     {
         return await _dbSet
-           .Include(t => t.OperationType)
-           .Include(t => t.Analyst)
-           .Include(t => t.Developer)
-           .Where(t => t.Status == AssignmentStatus.Pending)
-           .OrderByDescending(t => t.CreatedDate)
-           .AsNoTracking()
-           .ToListAsync();
+        .Include(t => t.Analyst)
+        .Where(t => t.Status == AssignmentStatus.Pending && t.OperationTypeId == 0) 
+        .OrderByDescending(t => t.CreatedDate)
+        .AsNoTracking()
+        .ToListAsync();
     }
 
     public async Task<IEnumerable<Models.Entities.Task>> GetTasksByStatusAsync(AssignmentStatus status)

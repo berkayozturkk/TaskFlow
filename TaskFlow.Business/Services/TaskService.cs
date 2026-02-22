@@ -1,7 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using TaskFlow.Business.DTOs;
+﻿using TaskFlow.Business.DTOs;
 using TaskFlow.Business.Interfaces;
-using TaskFlow.Data.Repositories;
 using TaskFlow.Data.Repositories.Interfaces;
 using TaskFlow.Models.Enums;
 using TaskFlow.Service.DTOs;
@@ -66,65 +64,9 @@ namespace TaskFlow.Business.Services
 
             var taskDtos = new List<TaskDto>();
             foreach (var task in tasks)
-            {
                 taskDtos.Add(await MapToDto(task));
-            }
 
             return taskDtos;
-        }
-
-        private async Task<TaskDto> MapToDto(EntityTask task)
-        {
-            var dto = new TaskDto
-            {
-                Id = task.Id,
-                Title = task.Title,
-                Description = task.Description ?? "-",
-                CreatedDate = task.CreatedDate
-            };
-
-            if (task.OperationTypeId > 0)
-            {
-                var operationType = await _operationTypeRepository.GetByIdAsync(task.OperationTypeId);
-                if (operationType != null)
-                {
-                    dto.OperationTypeName = operationType.Name;
-                    dto.DifficultyLevel = (int)operationType.DifficultyLevel;
-                }
-            }
-
-            dto.Status = task.Status switch
-            {
-                AssignmentStatus.Pending => "Bekliyor",
-                AssignmentStatus.Assigned => "Atandı",
-                AssignmentStatus.InProgress => "Devam Ediyor",
-                AssignmentStatus.Completed => "Tamamlandı",
-                AssignmentStatus.Cancelled => "İptal",
-                _ => "Bilinmiyor"
-            };
-
-            if (task.AnalystId > 0)
-            {
-                var analyst = await _employeeRepository.GetByIdAsync(task.AnalystId);
-                if (analyst != null)
-                {
-                    dto.AnalystName = $"{analyst.FirstName} {analyst.LastName}";
-                }
-            }
-
-            if (task.DeveloperId.HasValue)
-            {
-                var developer = await _employeeRepository.GetByIdAsync(task.DeveloperId.Value);
-                if (developer != null)
-                {
-                    dto.DeveloperName = $"{developer.FirstName} {developer.LastName}";
-                }
-            }
-
-            dto.AssignedDate = task.AssignedDate;
-            dto.CompletedDate = task.CompletedDate;
-
-            return dto;
         }
 
         public async Task UpdateTaskOperationTypeAsync(int taskId, int operationTypeId)
@@ -146,12 +88,10 @@ namespace TaskFlow.Business.Services
 
         public async Task<IEnumerable<TaskDto>> GetPendingTasksWithoutDifficultyAsync()
         {
-            var allTasks = await _taskRepository.GetAllAsync();
-
-            //var tasks = await _taskRepository.GetPendingTasksWithoutDifficultyAsync();
+            var tasks = await _taskRepository.GetPendingTasksWithoutDifficultyAsync();
 
             var taskDtos = new List<TaskDto>();
-            foreach (var task in allTasks.Where(t => t.Status == AssignmentStatus.Pending && t.OperationTypeId == 0))
+            foreach (var task in tasks)
                 taskDtos.Add(await MapToDto(task));
 
             return taskDtos;
@@ -225,5 +165,56 @@ namespace TaskFlow.Business.Services
         {
             return await _taskRepository.GetAssignedTasksAsync();
         }
+
+        private async Task<TaskDto> MapToDto(EntityTask task)
+        {
+            var dto = new TaskDto
+            {
+                Id = task.Id,
+                Title = task.Title,
+                Description = task.Description ?? "-",
+                CreatedDate = task.CreatedDate
+            };
+
+            if (task.OperationTypeId > 0)
+            {
+                var operationType = await _operationTypeRepository.GetByIdAsync(task.OperationTypeId);
+                if (operationType != null)
+                {
+                    dto.OperationTypeName = operationType.Name;
+                    dto.DifficultyLevel = (int)operationType.DifficultyLevel;
+                }
+            }
+
+            dto.Status = task.Status switch
+            {
+                AssignmentStatus.Pending => "Bekliyor",
+                AssignmentStatus.Assigned => "Atandı",
+                AssignmentStatus.InProgress => "Devam Ediyor",
+                AssignmentStatus.Completed => "Tamamlandı",
+                AssignmentStatus.Cancelled => "İptal",
+                _ => "Bilinmiyor"
+            };
+
+            if (task.AnalystId > 0)
+            {
+                var analyst = await _employeeRepository.GetByIdAsync(task.AnalystId);
+                if (analyst != null)
+                    dto.AnalystName = $"{analyst.FirstName} {analyst.LastName}";
+            }
+
+            if (task.DeveloperId.HasValue)
+            {
+                var developer = await _employeeRepository.GetByIdAsync(task.DeveloperId.Value);
+                if (developer != null)
+                    dto.DeveloperName = $"{developer.FirstName} {developer.LastName}";
+            }
+
+            dto.AssignedDate = task.AssignedDate;
+            dto.CompletedDate = task.CompletedDate;
+
+            return dto;
+        }
+
     }
 }
